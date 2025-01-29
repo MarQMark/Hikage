@@ -12,11 +12,21 @@ add_executable(Hikage
         imgui/imgui_tables.cpp
         imgui/imgui_widgets.cpp
 
+        config/Config.cpp
+        config/Project.cpp
+
+        views/View.cpp
+        views/ViewUtil.cpp
+        views/Menubar.cpp
+        views/ShaderView.cpp
+        views/NewProject.cpp
+
         main.cpp)
 
 target_include_directories(Hikage
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../external/glfw/include
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/
 )
 target_link_directories(Hikage PRIVATE external/glfw/src)
 

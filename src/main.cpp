@@ -1,56 +1,51 @@
-#include <iostream>
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_opengl3.h"
-#include "imgui/imgui_impl_glfw.h"
+#include "config/Config.h"
+#include "config/Project.h"
+#include "views/View.h"
+#include "views/Menubar.h"
+#include "views/ShaderView.h"
+#include "views/NewProject.h"
 
 int main() {
 
-    if (!glfwInit())
-        std::cout << "ERROR: Could not initialize GLFW" << std::endl;
+    if(Config::open() == -1){
+        return -1;
+    }
+
+    Project::open(CONFIG_PATH "test.frag");
+
+    if (!glfwInit()){
+        printf("[ERROR] Could not initialize GLFW\n");
+        return -1;
+    }
 
     auto* window = glfwCreateWindow(1280, 720, "Hikage", nullptr, nullptr);
     if (!window) {
         glfwTerminate();
-        std::cout << "ERROR: Could create Window" << std::endl;
+        printf("[ERROR] Could create Window\n");
+        return -1;
     }
 
     glfwMakeContextCurrent(window);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    //glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
-
     glfwSwapInterval(0);
 
-    if (glewInit() != GLEW_OK)
-        std::cout << "ERROR: Could not initialize GLEW" << std::endl;
+    if (glewInit() != GLEW_OK){
+        printf("[ERROR] Could not initialize GLEW\n");
+        return -1;
+    }
 
-    // Setup ImGUI
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 430");
+    View view(window);
+    Menubar menubar;
+    ShaderView shaderView;
+    NewProject newProject;
+
+    view.addViewable(&menubar, "Menubar");
+    view.addViewable(&shaderView, "ShaderView");
+    view.addViewable(&newProject, "NewProject");
 
     while(!glfwWindowShouldClose(window)){
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
-        bool show_demo_window = true;
-        ImGui::ShowDemoWindow(&show_demo_window);
-
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        view.render();
     }
 
     return 0;
