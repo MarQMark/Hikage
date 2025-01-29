@@ -2,6 +2,7 @@
 #define HIKAGE_SHADERVIEW_H
 
 #include "Viewable.h"
+#include "rendering/Viewport.h"
 
 class ShaderView : public Viewable{
 public:
@@ -9,7 +10,10 @@ public:
 
     void render() override;
 
+    void setViewport(Viewport* viewport);
 private:
+
+    Viewport* _viewport = nullptr;
 };
 
 

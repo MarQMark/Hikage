@@ -1,12 +1,12 @@
-#ifndef HIKAGE_MENUBAR_H
-#define HIKAGE_MENUBAR_H
+#ifndef HIKAGE_STARTMENU_H
+#define HIKAGE_STARTMENU_H
 
 #include "Viewable.h"
 #include "config/Project.h"
 
-class Menubar : public Viewable{
+class StartMenu : public Viewable{
 public:
-    Menubar() = default;
+    StartMenu() = default;
 
     void render() override;
 
@@ -15,4 +15,4 @@ private:
 };
 
 
-#endif //HIKAGE_MENUBAR_H
+#endif //HIKAGE_STARTMENU_H

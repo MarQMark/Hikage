@@ -20,6 +20,15 @@ add_executable(Hikage
         views/Menubar.cpp
         views/ShaderView.cpp
         views/NewProject.cpp
+        views/ErrorLog.cpp
+        views/StartMenu.cpp
+        views/ViewportSettings.cpp
+
+        util/utilLinux.cpp
+
+        rendering/Viewport.cpp
+        rendering/Shader.cpp
+        rendering/Uniforms.cpp
 
         main.cpp)
 

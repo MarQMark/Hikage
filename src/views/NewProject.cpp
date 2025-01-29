@@ -1,8 +1,10 @@
 #include <cstdio>
-#include <dirent.h>
-#include <array>
+
+#ifdef __linux
+    #include <dirent.h>
+#endif
+
 #include <memory>
-#include <stdexcept>
 #include <thread>
 #include "views/NewProject.h"
 #include "imgui/imgui.h"
@@ -15,7 +17,7 @@ NewProject::NewProject() {
     _visible = false;
 
     _name = "NewProject";
-    _path = "";//Config::Get()->getPath() + "projects/";
+    _path = Config::get()->projectPath();
 
 }
 
@@ -25,7 +27,6 @@ void NewProject::render() {
     if (ImGui::BeginPopupModal("New Project", nullptr, ImGuiWindowFlags_NoResize))
     {
         float windowWidth = ImGui::GetWindowSize().x;
-
         int errors = 0;
 
         centeredText("Create a new Project");
@@ -101,14 +102,14 @@ void NewProject::render() {
 }
 
 void NewProject::create_project() {
-    //auto* project = new Project(_name, _path);
-    //project->create(_versions[_version_int]);
-    //Project::open(project);
+    auto* project = new Project(_name, _path);
+    project->create();
+    Project::open(project);
 }
 
 void NewProject::clean() {
     _name = "NewProject";
-    //_path = Config::Get()->getPath() + "projects/";
+    _path = Config::get()->projectPath();
 }
 
 void NewProject::setVisible(bool visible) {
@@ -133,6 +134,7 @@ bool NewProject::validate_name() {
     if(!_valid_path)
         return false;
 
+#ifdef __linux
     DIR *dir;
     struct dirent *entry;
     dir = opendir(_path.c_str());
@@ -140,6 +142,7 @@ bool NewProject::validate_name() {
         if (_name == entry->d_name)
             return false;
     }
+#endif
 
     return true;
 }

@@ -25,8 +25,8 @@ void View::render() {
             viewable.second->render();
     }
 
-    bool show_demo_window = true;
-    ImGui::ShowDemoWindow(&show_demo_window);
+    //bool show_demo_window = true;
+    //ImGui::ShowDemoWindow(&show_demo_window);
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
