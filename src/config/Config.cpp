@@ -25,7 +25,7 @@ int Config::open() {
     if(!std::filesystem::exists(s_instance->configFilePath().c_str())){
         std::filesystem::create_directory(s_instance->configPath().c_str());
         s_instance->create_blank();
-        return 0;
+        return 1;
     }
 
     if(!std::filesystem::exists(s_instance->projectPath().c_str())){
@@ -59,6 +59,7 @@ int Config::open() {
         for(const auto & i : j["Resent Projects"])
             s_instance->_resent_projects.push_back(i);
 
+    return 1;
 }
 
 void Config::create_blank() {
