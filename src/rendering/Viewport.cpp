@@ -21,7 +21,7 @@ Viewport::Viewport(int width, int height) : _width(width), _height(height) {
     glBufferData(GL_ARRAY_BUFFER, 4*4 * 6, v, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4*4, 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4*4, 0);
 }
 
 Viewport::~Viewport() {

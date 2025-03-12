@@ -60,6 +60,8 @@ int Shader::compile_shader(GLenum type, const std::string &source) {
         sprintf(&_err_log[_err_log_idx], "[SHADER COMPILE] %s  Status %d\n\n", ((type == GL_VERTEX_SHADER) ? "VertexShader" : "FragmentShader"), status);
         _err_log_idx = (int)strlen(_err_log);
 
+        printf("%s\n", _err_log);
+
         GLsizei logLength = 0;
         glGetShaderInfoLog(id, 1024, &logLength, &_err_log[_err_log_idx]);
         _err_log_idx += logLength;

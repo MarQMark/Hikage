@@ -42,6 +42,7 @@ int Project::open(Project* project) {
     s_instance = project;
     Config::get()->addRecentProject(project->_path);
 
+    //s_instance->load();
     _opened = true;
 
     return 1;
@@ -93,6 +94,11 @@ void Project::save() {
 
     for(size_t i = 0; i < _files.size(); i++){
         j["Project Files"][i] = _files[i]->path;
+    }
+
+    for(size_t i = 0; i < _textures.size(); i++) {
+        j["Textures"][_textures[i]->getName()]["Name"] = _textures[i]->getName();
+        j["Textures"][_textures[i]->getName()]["Sampler"] = _textures[i]->getSampler();
     }
 
     std::ofstream file(_path + PROJECT_FILE_NAME);
@@ -171,5 +177,13 @@ int Project::getWidth() const {
 
 int Project::getHeight() const {
     return _height;
+}
+
+void Project::addTexture(Texture *txt) {
+    _textures.push_back(txt);
+}
+
+std::vector<Texture*> Project::getTextures() {
+    return _textures;
 }
 

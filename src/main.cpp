@@ -11,14 +11,21 @@
 #include "views/ErrorLog.h"
 #include "views/StartMenu.h"
 #include "views/ViewportSettings.h"
+#include "views/TexturesView.h"
 
 #define STB_IMAGE_IMPLEMENTATION
+
 #include "stb_image/stb_image.h"
 #include "rendering/Uniforms.h"
 
 
 /* TODO:
- *  -
+ *  - Add texture/ sampler2d
+ *  - Add pause/ play
+ *  - Add periodic reload
+ *  - Fix Version compatibility
+ *  - Add Info
+ *  - (Add deb package)
  */
 
 void setWindowIcon(GLFWwindow* window, const char* iconPath) {
@@ -66,7 +73,7 @@ int main() {
         return -1;
     }
 
-    setWindowIcon(window, std::string(Config::get()->configPath() + "/icon.png").c_str());
+    //setWindowIcon(window, std::string(Config::get()->configPath() + "/icon.png").c_str());
 
     Shader shader;
     Uniforms uniforms;
@@ -81,6 +88,7 @@ int main() {
     ErrorLog errorLog;
     StartMenu startMenu;
     ViewportSettings viewportSettings;
+    TexturesView texturesView;
 
     view.addViewable(&menubar, "Menubar");
     view.addViewable(&shaderView, "ShaderView");
@@ -88,6 +96,7 @@ int main() {
     view.addViewable(&errorLog, "ErrorLog");
     view.addViewable(&startMenu, "StartMenu");
     view.addViewable(&viewportSettings, "ViewportSettings");
+    view.addViewable(&texturesView, "TexturesView");
 
     startMenu.setVisible(true);
     errorLog.setVisible(false);

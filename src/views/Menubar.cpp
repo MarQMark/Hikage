@@ -55,6 +55,9 @@ void Menubar::render() {
             if(ImGui::MenuItem("Viewport", nullptr)) {
                 ((View*)view)->getViewable("ViewportSettings")->setVisible(true);
             }
+            if(ImGui::MenuItem("Textures", nullptr)) {
+                ((View*)view)->getViewable("TexturesView")->setVisible(true);
+            }
 
             ImGui::EndMenu();
         }

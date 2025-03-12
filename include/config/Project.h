@@ -6,6 +6,8 @@
 #include <filesystem>
 #include <vector>
 
+#include "Texture.h"
+
 class Project {
 private:
     static Project* s_instance;
@@ -43,6 +45,9 @@ public:
     int getWidth() const;
     int getHeight() const;
 
+    void addTexture(Texture* txt);
+    std::vector<Texture*> getTextures();
+
 private:
     static bool _opened;
 
@@ -54,6 +59,7 @@ private:
     int _height = 720;
 
     std::vector<File*> _files;
+    std::vector<Texture*> _textures;
 };
 
 

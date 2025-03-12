@@ -14,6 +14,7 @@ add_executable(Hikage
 
         config/Config.cpp
         config/Project.cpp
+        config/Texture.cpp
 
         views/View.cpp
         views/ViewUtil.cpp
@@ -23,6 +24,7 @@ add_executable(Hikage
         views/ErrorLog.cpp
         views/StartMenu.cpp
         views/ViewportSettings.cpp
+        views/TexturesView.cpp
 
         util/utilLinux.cpp
 
@@ -30,7 +32,8 @@ add_executable(Hikage
         rendering/Shader.cpp
         rendering/Uniforms.cpp
 
-        main.cpp)
+        main.cpp
+        )
 
 target_include_directories(Hikage
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include
