@@ -76,6 +76,14 @@ void Viewport::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, _width, _height);
 
+    for(size_t i = 0; i < Project::get()->getTextures().size(); i++){
+        auto* txt = Project::get()->getTextures()[i];
+        glActiveTexture(GL_TEXTURE0 + i);
+        glBindTexture(GL_TEXTURE_2D, txt->getID());
+
+        _shader->uniform1li(txt->getSampler(), i);
+    }
+
     // TODO: Add uniforms
     _shader->uniform1lf("u_time", _uniforms->tt);
     _shader->uniform1lf("u_delta_time", _uniforms->dt);
@@ -83,6 +91,11 @@ void Viewport::render() {
     _shader->uniform2fv("u_resolution", _uniforms->dim);
 
     glDrawArrays(GL_TRIANGLES, 0 , 6);
+
+    for(size_t i = 0; i < Project::get()->getTextures().size(); i++){
+        glActiveTexture(GL_TEXTURE0 + i);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

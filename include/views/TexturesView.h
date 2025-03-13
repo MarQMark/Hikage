@@ -13,9 +13,13 @@ public:
 
 private:
 
-    bool _render_new_txt = false;
     std::string _new_txt_path;
+    bool _render_new_txt = false;
     void render_new_txt();
+
+    int _del_txt_idx = -1;
+    bool _render_del_txt = false;
+    void render_del_txt();
 };
 
 #endif //HIKAGE_TEXTURESVIEW_H

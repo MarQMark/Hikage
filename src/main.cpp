@@ -20,12 +20,21 @@
 
 
 /* TODO:
- *  - Add texture/ sampler2d
  *  - Add pause/ play
  *  - Add periodic reload
  *  - Fix Version compatibility
  *  - Add Info
  *  - (Add deb package)
+ *
+ *  - Single Frame Generation
+ *  - Stats (FPS, Mouse Pos, ...)
+ *  - Multiple Shader Source files
+ *  - Vertex Shader
+ *  - Scripting
+ *  - Different Aspect Ratio to Resolution
+ *  - Info Uniforms
+ *  - Preprocessor in shader
+ *  - Better Error Log (show error in code)
  */
 
 void setWindowIcon(GLFWwindow* window, const char* iconPath) {

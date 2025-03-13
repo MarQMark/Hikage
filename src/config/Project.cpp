@@ -77,6 +77,25 @@ int Project::load() {
         }
     }
 
+    std::vector<std::string> txtNames;
+    if(data.contains("TexturesList")){
+        for(const auto & i : data["TexturesList"]){
+            txtNames.push_back(i);
+        }
+    }
+
+    if(data.contains("Textures")){
+        for(const auto& name : txtNames){
+            auto* txt = new Texture(std::string(data["Textures"][name]["Name"]), true);
+            if(txt->create(_path + PROJECT_TXT_PATH + txt->getName())){
+                txt->setSampler(std::string(data["Textures"][name]["Sampler"]));
+                _textures.push_back(txt);
+            }
+            else
+                delete txt;
+        }
+    }
+
     if(data.contains("Width"))
         _width = data["Width"];
     if(data.contains("Height"))
@@ -97,6 +116,7 @@ void Project::save() {
     }
 
     for(size_t i = 0; i < _textures.size(); i++) {
+        j["TexturesList"][i] = _textures[i]->getName();
         j["Textures"][_textures[i]->getName()]["Name"] = _textures[i]->getName();
         j["Textures"][_textures[i]->getName()]["Sampler"] = _textures[i]->getSampler();
     }
@@ -179,11 +199,32 @@ int Project::getHeight() const {
     return _height;
 }
 
-void Project::addTexture(Texture *txt) {
+void Project::addTexture(Texture *txt, const std::string& path) {
+    std::string dest = _path + PROJECT_TXT_PATH;
+    if(!std::filesystem::exists(dest.c_str())){
+        std::filesystem::create_directory(dest.c_str());
+    }
+    if(!std::filesystem::exists(dest+txt->getName()))
+        std::filesystem::copy_file(path, dest + txt->getName());
+    else
+        printf("[ERROR] Texture with Name %s already exits in %s/txt/\n", txt->getName().c_str(), Project::get()->getName().c_str());
+
     _textures.push_back(txt);
 }
 
 std::vector<Texture*> Project::getTextures() {
     return _textures;
+}
+
+void Project::delTexture(size_t idx) {
+    if(idx >= _textures.size())
+        return;
+
+    Texture* txt = _textures[idx];
+    if(std::filesystem::exists(_path + PROJECT_TXT_PATH + txt->getName()))
+        std::filesystem::remove(_path + PROJECT_TXT_PATH + txt->getName());
+
+    delete txt;
+    _textures.erase(_textures.begin() + (int)idx);
 }
 

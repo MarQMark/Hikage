@@ -45,8 +45,9 @@ public:
     int getWidth() const;
     int getHeight() const;
 
-    void addTexture(Texture* txt);
+    void addTexture(Texture* txt, const std::string& path);
     std::vector<Texture*> getTextures();
+    void delTexture(size_t idx);
 
 private:
     static bool _opened;

@@ -8,6 +8,7 @@
 #define CONFIG_FILE_NAME "hikage.conf"
 #define PROJECT_PATH "projects/"
 #define PROJECT_FILE_NAME "hikage.proj"
+#define PROJECT_TXT_PATH "txt/"
 
 #define HIKAGE_VERSION "0.1.0"
 

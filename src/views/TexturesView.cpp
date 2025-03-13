@@ -16,23 +16,57 @@ void TexturesView::render() {
         render_new_txt();
         return;
     }
+    if(_render_del_txt){
+        render_del_txt();
+        return;
+    }
 
-    ImGui::OpenPopup("Viewport Settings");
+    ImGui::OpenPopup("Textures Settings");
     ImGui::SetNextWindowSize(ImVec2(400,600));
-    if (ImGui::BeginPopupModal("Viewport Settings", nullptr, ImGuiWindowFlags_NoResize)) {
+    if (ImGui::BeginPopupModal("Textures Settings", nullptr, ImGuiWindowFlags_NoResize)) {
         centeredText("Textures");
         ImVec2 windowSize = ImGui::GetWindowSize();
 
         if(Project::get()) {
-            for(auto* txt : Project::get()->getTextures()) {
-                centeredText(txt->getName().c_str());
+
+            ImGui::SetCursorPosX(ImGui::GetContentRegionAvail().x * 0.05f);
+            ImGui::BeginChild("ChildL", ImVec2(ImGui::GetContentRegionAvail().x * 0.95f, 470), ImGuiChildFlags_Border);
+            for(size_t i = 0; i < Project::get()->getTextures().size(); i++) {
+                auto* txt = Project::get()->getTextures()[i];
+                ImGui::PushID(i);
+                ImGui::Text("%s", txt->getName().c_str());
+
+                ImGui::BeginGroup();
                 ImGui::Image(reinterpret_cast<uint32_t *>(txt->getID()),
-                    ImVec2(32, 32),
+                    ImVec2(64, 64),
                     ImVec2(0.0f, 0.0f),
                     ImVec2(1.0f, 1.0f),
                     ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
                     ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                if (ImGui::BeginItemTooltip())
+                {
+                    ImGui::Text("Width:  %d", txt->getWidth());
+                    ImGui::Text("Height: %d", txt->getHeight());
+                    ImGui::EndTooltip();
+                }
+
+                ImGui::EndGroup();
+                ImGui::SameLine();
+
+                ImGui::BeginGroup();
+                ImGui::Text("Sampler2D Name:");
+                ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+                ImGui::InputText("##sampler", txt->getRSampler());
+                if(ImGui::Button("Delete", ImVec2(ImGui::GetContentRegionAvail().x, 25))) {
+                    _render_del_txt = true;
+                    _del_txt_idx = (int)i;
+                }
+                ImGui::EndGroup();
+                ImGui::Separator();
+                ImGui::PopID();
             }
+            ImGui::EndChild();
+
 
             ImGui::SetCursorPosX((windowSize.x - 250) / 2);
             if (ImGui::Button("New Texture", ImVec2(250, 30))){
@@ -46,6 +80,7 @@ void TexturesView::render() {
         ImGui::SetCursorPosY(windowSize.y - 30 - ImGui::GetStyle().WindowPadding.y);
         ImGui::SetCursorPosX((windowSize.x - 300) / 2);
         if (ImGui::Button("Close", ImVec2(300, 30))){
+            Project::get()->save();
             ImGui::CloseCurrentPopup();
             setVisible(false);
         }
@@ -128,15 +163,56 @@ void TexturesView::render_new_txt() {
         ImGui::SetCursorPosX(button2PosX);
         if (ImGui::Button("Create", ImVec2(buttonWidth, buttonHeight))){
             auto* txt = new Texture(_new_txt_path);
-            if(txt->create() != -1)
-                Project::get()->addTexture(txt);
+            if(txt->create(_new_txt_path) != -1)
+                Project::get()->addTexture(txt, _new_txt_path);
+            else
+                delete txt;
 
+            Project::get()->save();
             ImGui::CloseCurrentPopup();
             _new_txt_path = "";
             _render_new_txt = false;
         }
         if(errors != 0)
             ImGui::EndDisabled();
+
+        ImGui::EndPopup();
+    }
+}
+
+void TexturesView::render_del_txt() {
+    ImGui::OpenPopup("Delete Texture");
+    ImGui::SetNextWindowSize(ImVec2(400,120));
+    if (ImGui::BeginPopupModal("Delete Texture", nullptr, ImGuiWindowFlags_NoResize)) {
+
+        ImGui::TextWrapped("Are you sure you want to delete this texture? The image file in the project directory will also be deleted");
+
+        ImGui::Separator();
+
+        ImVec2 windowSize = ImGui::GetWindowSize();
+        float buttonWidth = 175.0f;
+        float buttonHeight = 30.0f;
+        float spacing = 20.0f;
+        float totalWidth = 2 * buttonWidth + spacing;
+        float button1PosX = (windowSize.x - totalWidth) * 0.5f;
+        float button2PosX = button1PosX + buttonWidth + spacing;
+        ImGui::SetCursorPosY(windowSize.y - buttonHeight - ImGui::GetStyle().WindowPadding.y);
+
+        ImGui::SetCursorPosX(button1PosX);
+        if (ImGui::Button("Cancel", ImVec2(buttonWidth, buttonHeight))){
+            ImGui::CloseCurrentPopup();
+            _render_del_txt = false;
+        }
+        ImGui::SameLine();
+
+        ImGui::SetCursorPosX(button2PosX);
+        if (ImGui::Button("Delete", ImVec2(buttonWidth, buttonHeight))){
+            Project::get()->delTexture(_del_txt_idx);
+            Project::get()->save();
+            ImGui::CloseCurrentPopup();
+            _del_txt_idx = -1;
+            _render_del_txt = false;
+        };
 
         ImGui::EndPopup();
     }

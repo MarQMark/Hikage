@@ -5,22 +5,23 @@
 
 class Texture {
 public:
-    Texture(const std::string &pathName);
-    Texture(std::string path, std::string name);
+    Texture(const std::string &pathName, bool onlyName = false);
     ~Texture();
 
-    int create();
+    int create(const std::string &pathName);
 
     std::string getName();
-    std::string getPath();
     std::string getSampler();
-    void setSampler(std::string& name);
+    void setSampler(std::basic_string<char> name);
+    std::string* getRSampler();
+
+    int getWidth() const;
+    int getHeight() const;
 
     uint32_t getID() const;
 
 private:
     std::string _name;
-    std::string _path;
     std::string _sampler;
 
     uint32_t _id;

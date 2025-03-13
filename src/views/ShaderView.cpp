@@ -9,7 +9,7 @@ void ShaderView::render() {
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-    ImGui::Begin("ShaderView", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize);
+    ImGui::Begin("ShaderView", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
     float view_padding = 10;
     float x_min, x_max, y_min, y_max;
