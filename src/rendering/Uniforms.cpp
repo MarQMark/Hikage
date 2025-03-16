@@ -16,6 +16,9 @@ void Uniforms::update(GLFWwindow* window) {
     _last_time = std::chrono::high_resolution_clock::now();
     if(_dt > 1e7)
         _dt = 1e-7;
+    if(Project::get() && Project::get()->isPaused())
+        return;
+
     _tt += _dt;
 
     dt = (float)_dt;

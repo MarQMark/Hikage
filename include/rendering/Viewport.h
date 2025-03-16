@@ -21,6 +21,7 @@ public:
 
     void setShader(Shader* shader);
     void setUniforms(Uniforms* uniforms);
+    Uniforms* getUniforms();
 
 private:
     void gen_txt();

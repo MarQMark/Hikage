@@ -112,7 +112,7 @@ void Project::save() {
     j["Height"] = _height;
 
     for(size_t i = 0; i < _files.size(); i++){
-        j["Project Files"][i] = _files[i]->path;
+        j["Project Files"][i] = _files[i]->name;
     }
 
     for(size_t i = 0; i < _textures.size(); i++) {
@@ -135,8 +135,9 @@ void Project::create() {
     }
 
     std::ofstream file(_path + "default.frag");
+    file << _default_frag;
     file.close();
-    addFile(_path + "default.frag");
+    addFile("default.frag");
 
     save();
 }
@@ -152,7 +153,7 @@ std::string Project::getPath() {
 bool Project::changed() {
 
     for(auto* file: _files){
-        std::filesystem::file_time_type time = std::filesystem::last_write_time(file->path);
+        std::filesystem::file_time_type time = std::filesystem::last_write_time(std::string (_path + file->name).c_str());
         if(file->last_time != time){
             file->last_time = time;
             return true;
@@ -162,12 +163,11 @@ bool Project::changed() {
     return false;
 }
 
-void Project::addFile(std::string path) {
+void Project::addFile(std::string name) {
     auto* file = new File;
-    file->path = std::move(path);
-    file->last_time = std::filesystem::last_write_time(_path.c_str());
+    file->name = std::move(name);
+    memset(&file->last_time, 0, sizeof(std::filesystem::file_time_type));
     _files.push_back(file);
-
     save();
 }
 
@@ -226,5 +226,13 @@ void Project::delTexture(size_t idx) {
 
     delete txt;
     _textures.erase(_textures.begin() + (int)idx);
+}
+
+bool Project::isPaused() const {
+    return _paused;
+}
+
+void Project::pause(bool pause) {
+    _paused = pause;
 }
 

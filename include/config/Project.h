@@ -22,7 +22,7 @@ public:
 
     struct File{
         std::filesystem::file_time_type last_time;
-        std::string path;
+        std::string name;
     };
 
     static int open(Project* project);
@@ -49,8 +49,13 @@ public:
     std::vector<Texture*> getTextures();
     void delTexture(size_t idx);
 
+    bool isPaused() const;
+    void pause(bool pause);
+
 private:
     static bool _opened;
+
+    bool _paused = false;
 
     std::string _path{};
     std::string _name{};
@@ -61,6 +66,20 @@ private:
 
     std::vector<File*> _files;
     std::vector<Texture*> _textures;
+
+    std::string _default_frag =
+            "#version 430\n"
+            "\n"
+            "uniform vec2  u_resolution; // Screen Resolution (width, height)\n"
+            "uniform vec2  u_mouse;      // Mouse Position (x, y)\n"
+            "uniform float u_time;       // Time in Seconds\n"
+            "uniform float u_delta_time; // Time per Frame\n"
+            "\n"
+            "layout(location = 0) out vec4 fragColor;\n"
+            "\n"
+            "void main() {\n"
+            "    fragColor = vec4(.2, .3, .8, 1.0);\n"
+            "}";
 };
 
 

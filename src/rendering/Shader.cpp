@@ -147,7 +147,7 @@ void Shader::build(Project *project) {
 
     for(auto* file : project->getFiles()){
         std::string line;
-        std::ifstream source(file->path.c_str());
+        std::ifstream source(project->getPath() + file->name);
         while (std::getline(source, line))
             ss << line << std::endl;
         source.close();

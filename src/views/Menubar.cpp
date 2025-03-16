@@ -62,6 +62,20 @@ void Menubar::render() {
             ImGui::EndMenu();
         }
 
+        if(Project::get()){
+            if(Project::get()->isPaused()){
+                if(ImGui::MenuItem("Resume", nullptr)) {
+                    Project::get()->pause(false);
+                }
+            }
+            else{
+                if(ImGui::MenuItem("Pause ", nullptr)) {
+                    Project::get()->pause(true);
+                }
+            }
+        }
+
+
         ImGui::EndMainMenuBar();
     }
 }

@@ -68,6 +68,9 @@ GLuint Viewport::txt() const {
 }
 
 void Viewport::render() {
+    if(Project::get() && Project::get()->isPaused())
+        return;
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
@@ -106,4 +109,8 @@ void Viewport::setUniforms(Uniforms *uniforms) {
 
 void Viewport::setShader(Shader *shader) {
     _shader = shader;
+}
+
+Uniforms *Viewport::getUniforms() {
+    return _uniforms;
 }

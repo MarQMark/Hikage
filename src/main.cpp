@@ -22,19 +22,19 @@
 /* TODO:
  *  - Add pause/ play
  *  - Add periodic reload
- *  - Fix Version compatibility
  *  - Add Info
- *  - (Add deb package)
  *
+ *  - Settings Menu
+ *  - Info Uniforms
+ *  - Fix Version compatibility
  *  - Single Frame Generation
- *  - Stats (FPS, Mouse Pos, ...)
  *  - Multiple Shader Source files
  *  - Vertex Shader
  *  - Scripting
  *  - Different Aspect Ratio to Resolution
- *  - Info Uniforms
  *  - Preprocessor in shader
  *  - Better Error Log (show error in code)
+ *  - (Add deb package)
  */
 
 void setWindowIcon(GLFWwindow* window, const char* iconPath) {
@@ -82,7 +82,7 @@ int main() {
         return -1;
     }
 
-    //setWindowIcon(window, std::string(Config::get()->configPath() + "/icon.png").c_str());
+    setWindowIcon(window, std::string(Config::get()->configPath() + "/icon.png").c_str());
 
     Shader shader;
     Uniforms uniforms;

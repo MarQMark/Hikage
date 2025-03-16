@@ -43,6 +43,17 @@ void ShaderView::render() {
                        ImVec2(1, 0));
 
 
+    ImGui::SetCursorPos(ImVec2(0, 0));
+    ImGui::Text("FPS: %.0f", 1000 / _viewport->getUniforms()->dt);
+    ImGui::SetCursorPosX(0);
+    ImGui::Text("u_delta_time: %.1f", _viewport->getUniforms()->dt);
+    ImGui::SetCursorPosX(0);
+    ImGui::Text("u_time: %.0f", _viewport->getUniforms()->tt);
+    ImGui::SetCursorPosX(0);
+    ImGui::Text("u_mouse: %.0f, %.0f", _viewport->getUniforms()->mousePos.x, _viewport->getUniforms()->mousePos.y);
+    ImGui::SetCursorPosX(0);
+    ImGui::Text("u_resolution: %.0f, %.0f", _viewport->getUniforms()->dim.x, _viewport->getUniforms()->dim.x);
+
     ImGui::End();
     ImGui::PopStyleVar();
 }
