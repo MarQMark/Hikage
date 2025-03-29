@@ -9,6 +9,7 @@
 #define PROJECT_PATH "projects/"
 #define PROJECT_FILE_NAME "hikage.proj"
 #define PROJECT_TXT_PATH "txt/"
+#define PROJECT_SCRIPT_NAME "script.py"
 
 #define HIKAGE_VERSION "0.1.0"
 

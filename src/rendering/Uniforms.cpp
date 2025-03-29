@@ -1,7 +1,9 @@
 #include "rendering/Uniforms.h"
 #include "config/Project.h"
 
-void Uniforms::update(GLFWwindow* window) {
+Uniforms* Uniforms::s_instance = nullptr;
+
+void Uniforms::update() {
 
     double mouseX;
     double mouseY;
@@ -23,4 +25,20 @@ void Uniforms::update(GLFWwindow* window) {
 
     dt = (float)_dt;
     tt = (float)_tt;
+
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+    windowDim = glm::vec2(width, height);
+
+    if(setCursorPos){
+        glfwSetCursorPos(window, cursorPos.x, cursorPos.y);
+        setCursorPos = false;
+    }
+    if(updateCursorVis){
+        if(cursorVisible)
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        else
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        updateCursorVis = false;
+    }
 }

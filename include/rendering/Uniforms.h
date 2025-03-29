@@ -6,17 +6,40 @@
 #include "GLFW/glfw3.h"
 
 class Uniforms {
-public:
-    Uniforms() = default;
+private:
+    static Uniforms* s_instance;
 
-    void update(GLFWwindow* window);
+public:
+    static Uniforms* get(){
+        if(!s_instance)
+            s_instance = new Uniforms;
+
+        return s_instance;
+    }
+
+    void update();
 
     float dt;
     float tt;
-    glm::vec2 dim;
-    glm::vec2 mousePos;
+    glm::vec2 dim{};
+    glm::vec2 mousePos{};
+    GLFWwindow* window{};
+
+    glm::vec2 windowDim{};
+
+    bool setCursorPos = false;
+    glm::vec2 cursorPos{};
+    bool updateCursorVis = false;
+    bool cursorVisible = true;
 
 private:
+    Uniforms() {
+        dt = 0;
+        tt = 0;
+        dim = glm::vec2(1280, 720);
+        mousePos = glm::vec2(0);
+    }
+
     double _dt = 0;
     double _tt = 0;
 

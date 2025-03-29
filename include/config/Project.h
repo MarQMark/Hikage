@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Texture.h"
+#include "script/Script.h"
 
 class Project {
 private:
@@ -49,6 +50,9 @@ public:
     std::vector<Texture*> getTextures();
     void delTexture(size_t idx);
 
+    void createScript();
+    Script* getScript();
+
     bool isPaused() const;
     void pause(bool pause);
 
@@ -66,6 +70,7 @@ private:
 
     std::vector<File*> _files;
     std::vector<Texture*> _textures;
+    Script* _script{};
 
     std::string _default_frag =
             "#version 430\n"
@@ -80,6 +85,15 @@ private:
             "void main() {\n"
             "    fragColor = vec4(.2, .3, .8, 1.0);\n"
             "}";
+
+    std::string _default_script =
+            "import hikage\n"
+            "\n"
+            "def init():\n"
+            "    pass\n"
+            "    \n"
+            "def update():\n"
+            "    pass";
 };
 
 

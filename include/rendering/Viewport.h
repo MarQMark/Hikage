@@ -20,8 +20,6 @@ public:
     static void unbind();
 
     void setShader(Shader* shader);
-    void setUniforms(Uniforms* uniforms);
-    Uniforms* getUniforms();
 
 private:
     void gen_txt();
@@ -34,7 +32,6 @@ private:
     GLuint _vb = 0;
 
     Shader* _shader;
-    Uniforms* _uniforms;
 };
 
 

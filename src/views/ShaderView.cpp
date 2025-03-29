@@ -44,15 +44,15 @@ void ShaderView::render() {
 
 
     ImGui::SetCursorPos(ImVec2(0, 0));
-    ImGui::Text("FPS: %.0f", 1000 / _viewport->getUniforms()->dt);
+    ImGui::Text("FPS: %.0f", 1000 / Uniforms::get()->dt);
     ImGui::SetCursorPosX(0);
-    ImGui::Text("u_delta_time: %.1f", _viewport->getUniforms()->dt);
+    ImGui::Text("u_delta_time: %.1f", Uniforms::get()->dt);
     ImGui::SetCursorPosX(0);
-    ImGui::Text("u_time: %.0f", _viewport->getUniforms()->tt);
+    ImGui::Text("u_time: %.0f", Uniforms::get()->tt);
     ImGui::SetCursorPosX(0);
-    ImGui::Text("u_mouse: %.0f, %.0f", _viewport->getUniforms()->mousePos.x, _viewport->getUniforms()->mousePos.y);
+    ImGui::Text("u_mouse: %.0f, %.0f", Uniforms::get()->mousePos.x, Uniforms::get()->mousePos.y);
     ImGui::SetCursorPosX(0);
-    ImGui::Text("u_resolution: %.0f, %.0f", _viewport->getUniforms()->dim.x, _viewport->getUniforms()->dim.x);
+    ImGui::Text("u_resolution: %.0f, %.0f", Uniforms::get()->dim.x, Uniforms::get()->dim.y);
 
     ImGui::End();
     ImGui::PopStyleVar();

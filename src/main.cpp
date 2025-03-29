@@ -16,21 +16,20 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "stb_image/stb_image.h"
-#include "rendering/Uniforms.h"
-
+#include "script/Callbacks.h"
 
 /* TODO:
- *  - Add pause/ play
- *  - Add periodic reload
  *  - Add Info
- *
- *  - Settings Menu
  *  - Info Uniforms
+ *  - Info Python Scripts
+ *  - del Script
+ *
+ *  - Add periodic reload
+ *  - Settings Menu
  *  - Fix Version compatibility
  *  - Single Frame Generation
  *  - Multiple Shader Source files
  *  - Vertex Shader
- *  - Scripting
  *  - Different Aspect Ratio to Resolution
  *  - Preprocessor in shader
  *  - Better Error Log (show error in code)
@@ -85,10 +84,11 @@ int main() {
     setWindowIcon(window, std::string(Config::get()->configPath() + "/icon.png").c_str());
 
     Shader shader;
-    Uniforms uniforms;
     Viewport viewport(1280, 720);
     viewport.setShader(&shader);
-    viewport.setUniforms(&uniforms);
+    Uniforms::get()->window = window;
+
+    scriptAddCallbacks(window);
 
     View view(window);
     Menubar menubar;
@@ -117,7 +117,7 @@ int main() {
         view.render();
 
         if(Project::get()){
-            uniforms.update(window);
+            Uniforms::get()->update();
 
             startMenu.setVisible(false);
 
@@ -139,6 +139,11 @@ int main() {
             else{
                 shaderView.setVisible(true);
                 errorLog.setVisible(false);
+
+                if(Project::get()->getScript()){
+
+                    Project::get()->getScript()->update();
+                }
 
                 shader.bind();
                 viewport.render();

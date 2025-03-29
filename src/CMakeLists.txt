@@ -32,6 +32,9 @@ add_executable(Hikage
         rendering/Shader.cpp
         rendering/Uniforms.cpp
 
+        script/Script.cpp
+        script/Callbacks.cpp
+
         main.cpp
         )
 
@@ -39,6 +42,7 @@ target_include_directories(Hikage
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../external/glfw/include
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/
+        PUBLIC /usr/include/python3.11/
 )
 target_link_directories(Hikage PRIVATE external/glfw/src)
 
@@ -48,4 +52,4 @@ add_compile_definitions(GLEW_STATIC)
 
 
 find_package(OpenGL REQUIRED)
-target_link_libraries(Hikage glut GL dl X11 pthread)
+target_link_libraries(Hikage python3.11 glut GL dl X11 pthread)

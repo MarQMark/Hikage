@@ -87,11 +87,30 @@ void Viewport::render() {
         _shader->uniform1li(txt->getSampler(), i);
     }
 
-    // TODO: Add uniforms
-    _shader->uniform1lf("u_time", _uniforms->tt);
-    _shader->uniform1lf("u_delta_time", _uniforms->dt);
-    _shader->uniform2fv("u_mouse", _uniforms->mousePos);
-    _shader->uniform2fv("u_resolution", _uniforms->dim);
+    Script* script = Project::get()->getScript();
+    if(script){
+        for(auto& u : *script->getUniforms()){
+            switch (u.type) {
+                case Script::i1:
+                    _shader->uniform1li(u.name, u.value.i1); break;
+                case Script::f1:
+                    _shader->uniform1lf(u.name, u.value.f1); break;
+                case Script::f2:
+                    _shader->uniform2fv(u.name, u.value.f2); break;
+                case Script::f3:
+                    _shader->uniform3fv(u.name, u.value.f3); break;
+                case Script::f4:
+                    _shader->uniform4fv(u.name, u.value.f4); break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    _shader->uniform1lf("u_time", Uniforms::get()->tt);
+    _shader->uniform1lf("u_delta_time", Uniforms::get()->dt);
+    _shader->uniform2fv("u_mouse", Uniforms::get()->mousePos);
+    _shader->uniform2fv("u_resolution", Uniforms::get()->dim);
 
     glDrawArrays(GL_TRIANGLES, 0 , 6);
 
@@ -103,14 +122,8 @@ void Viewport::render() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Viewport::setUniforms(Uniforms *uniforms) {
-    _uniforms = uniforms;
-}
 
 void Viewport::setShader(Shader *shader) {
     _shader = shader;
 }
 
-Uniforms *Viewport::getUniforms() {
-    return _uniforms;
-}

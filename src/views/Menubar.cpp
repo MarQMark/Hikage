@@ -63,6 +63,24 @@ void Menubar::render() {
         }
 
         if(Project::get()){
+            if(ImGui::BeginMenu("Script")){
+                if(Project::get()->getScript()){
+                    if(ImGui::MenuItem(Project::get()->getScript()->isActive() ? "Deactivate" : "Activate", nullptr)) {
+                        Project::get()->getScript()->setActive(!Project::get()->getScript()->isActive());
+                    }
+                    if(ImGui::MenuItem("ReRun", nullptr)) {
+                        Project::get()->getScript()->launch();
+                    }
+                }
+                else{
+                    if(ImGui::MenuItem("Add Script", nullptr)) {
+                        Project::get()->createScript();
+                    }
+                }
+                ImGui::EndMenu();
+            }
+
+            ImGui::Separator();
             if(Project::get()->isPaused()){
                 if(ImGui::MenuItem("Resume", nullptr)) {
                     Project::get()->pause(false);
@@ -73,6 +91,7 @@ void Menubar::render() {
                     Project::get()->pause(true);
                 }
             }
+            ImGui::Separator();
         }
 
 

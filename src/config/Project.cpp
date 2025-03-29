@@ -100,6 +100,10 @@ int Project::load() {
         _width = data["Width"];
     if(data.contains("Height"))
         _height = data["Height"];
+    if(data.contains("Script")){
+        if(data["Script"])
+            _script = new Script(_path);
+    }
 
     return 1;
 }
@@ -120,6 +124,8 @@ void Project::save() {
         j["Textures"][_textures[i]->getName()]["Name"] = _textures[i]->getName();
         j["Textures"][_textures[i]->getName()]["Sampler"] = _textures[i]->getSampler();
     }
+    if(_script)
+        j["Script"] = true;
 
     std::ofstream file(_path + PROJECT_FILE_NAME);
     file << std::setw(4) << j << std::endl;
@@ -234,5 +240,19 @@ bool Project::isPaused() const {
 
 void Project::pause(bool pause) {
     _paused = pause;
+}
+
+Script *Project::getScript() {
+    return _script;
+}
+
+void Project::createScript() {
+    std::ofstream file(_path + PROJECT_SCRIPT_NAME);
+    file << _default_script;
+    file.close();
+
+    _script = new Script(_path);
+
+    save();
 }
 
