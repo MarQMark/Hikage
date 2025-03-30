@@ -51,6 +51,7 @@ public:
     void delTexture(size_t idx);
 
     void createScript();
+    void deleteScript();
     Script* getScript();
 
     bool isPaused() const;
@@ -77,8 +78,8 @@ private:
             "\n"
             "uniform vec2  u_resolution; // Screen Resolution (width, height)\n"
             "uniform vec2  u_mouse;      // Mouse Position (x, y)\n"
-            "uniform float u_time;       // Time in Seconds\n"
-            "uniform float u_delta_time; // Time per Frame\n"
+            "uniform float u_time;       // Time in Milli Seconds\n"
+            "uniform float u_delta_time; // Time per Frame in Milli Seconds\n"
             "\n"
             "layout(location = 0) out vec4 fragColor;\n"
             "\n"

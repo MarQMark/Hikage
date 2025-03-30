@@ -12,6 +12,9 @@ public:
 
 private:
     static void open_project(Project* project);
+
+    bool _delete_script = false;
+    void render_delete_script();
 };
 
 

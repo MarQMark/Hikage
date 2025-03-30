@@ -14,7 +14,46 @@ void Menubar::open_project(Project* project){
     }
 }
 
+void Menubar::render_delete_script() {
+    ImGui::OpenPopup("Delete Script");
+    ImGui::SetNextWindowSize(ImVec2(400,120));
+    if (ImGui::BeginPopupModal("Delete Script", nullptr, ImGuiWindowFlags_NoResize)) {
+
+        ImGui::TextWrapped("Are you sure you want to delete this Script? The image file in the project directory will also be deleted");
+
+        ImGui::Separator();
+
+        ImVec2 windowSize = ImGui::GetWindowSize();
+        float buttonWidth = 175.0f;
+        float buttonHeight = 30.0f;
+        float spacing = 20.0f;
+        float totalWidth = 2 * buttonWidth + spacing;
+        float button1PosX = (windowSize.x - totalWidth) * 0.5f;
+        float button2PosX = button1PosX + buttonWidth + spacing;
+        ImGui::SetCursorPosY(windowSize.y - buttonHeight - ImGui::GetStyle().WindowPadding.y);
+
+        ImGui::SetCursorPosX(button1PosX);
+        if (ImGui::Button("Cancel", ImVec2(buttonWidth, buttonHeight))){
+            ImGui::CloseCurrentPopup();
+            _delete_script = false;
+        }
+        ImGui::SameLine();
+
+        ImGui::SetCursorPosX(button2PosX);
+        if (ImGui::Button("Delete", ImVec2(buttonWidth, buttonHeight))){
+            Project::get()->deleteScript();
+            ImGui::CloseCurrentPopup();
+            _delete_script = false;
+        }
+
+        ImGui::EndPopup();
+    }
+}
+
 void Menubar::render() {
+    if(_delete_script)
+        render_delete_script();
+
     if(ImGui::BeginMainMenuBar()){
 
         if(ImGui::BeginMenu("File")){
@@ -70,6 +109,9 @@ void Menubar::render() {
                     }
                     if(ImGui::MenuItem("ReRun", nullptr)) {
                         Project::get()->getScript()->launch();
+                    }
+                    if(ImGui::MenuItem("Delete Script", nullptr)) {
+                        _delete_script = true;
                     }
                 }
                 else{

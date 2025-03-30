@@ -22,7 +22,6 @@
  *  - Add Info
  *  - Info Uniforms
  *  - Info Python Scripts
- *  - del Script
  *
  *  - Add periodic reload
  *  - Settings Menu

@@ -54,7 +54,7 @@ private:
 
     std::vector<Uniform> _uniforms;
 
-    PyObject* _py_module;
+    PyObject* _py_module{};
     PyObject* _py_init{};
     PyObject* _py_update{};
     PyObject* _py_clbk_mouse_btn{};

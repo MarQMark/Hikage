@@ -41,6 +41,7 @@ static PyObject* pySetUniform1i(PyObject* self, PyObject* args) {
     u.type = Script::UniformType::i1;
     u.value.i1 = int1;
     Project::get()->getScript()->addUniform(u);
+    Py_RETURN_NONE;
 }
 static PyObject* pySetUniform1f(PyObject* self, PyObject* args) {
     const char* input_str;
@@ -54,6 +55,7 @@ static PyObject* pySetUniform1f(PyObject* self, PyObject* args) {
     u.type = Script::UniformType::f1;
     u.value.f1 = (float)float1;
     Project::get()->getScript()->addUniform(u);
+    Py_RETURN_NONE;
 }
 static PyObject* pySetUniform2f(PyObject* self, PyObject* args) {
     const char* input_str;
@@ -67,6 +69,7 @@ static PyObject* pySetUniform2f(PyObject* self, PyObject* args) {
     u.type = Script::UniformType::f2;
     u.value.f2 = glm::vec2(float1, float2);
     Project::get()->getScript()->addUniform(u);
+    Py_RETURN_NONE;
 }
 static PyObject* pySetUniform3f(PyObject* self, PyObject* args) {
     const char* input_str;
@@ -80,6 +83,7 @@ static PyObject* pySetUniform3f(PyObject* self, PyObject* args) {
     u.type = Script::UniformType::f3;
     u.value.f3 = glm::vec3(float1, float2, float3);
     Project::get()->getScript()->addUniform(u);
+    Py_RETURN_NONE;
 }
 static PyObject* pySetUniform4f(PyObject* self, PyObject* args) {
     const char* input_str;
@@ -93,6 +97,7 @@ static PyObject* pySetUniform4f(PyObject* self, PyObject* args) {
     u.type = Script::UniformType::f4;
     u.value.f4 = glm::vec4(float1, float2, float3, float4);
     Project::get()->getScript()->addUniform(u);
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySetCursorPos(PyObject* self, PyObject* args){
@@ -103,6 +108,7 @@ static PyObject* pySetCursorPos(PyObject* self, PyObject* args){
 
     Uniforms::get()->setCursorPos = true;
     Uniforms::get()->cursorPos = glm::vec2(x, y);
+    Py_RETURN_NONE;
 }
 static PyObject* pySetCursorVisibility(PyObject* self, PyObject* args) {
     PyObject* pyBool;
@@ -118,6 +124,7 @@ static PyObject* pySetCursorVisibility(PyObject* self, PyObject* args) {
     bool cppBool = PyObject_IsTrue(pyBool);
     Uniforms::get()->updateCursorVis = true;
     Uniforms::get()->cursorVisible = cppBool;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGetDT(PyObject* self, PyObject* args) {

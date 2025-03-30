@@ -256,3 +256,11 @@ void Project::createScript() {
     save();
 }
 
+void Project::deleteScript() {
+    delete _script;
+    _script = nullptr;
+    if(std::filesystem::exists(_path + PROJECT_SCRIPT_NAME))
+        std::filesystem::remove(_path + PROJECT_SCRIPT_NAME);
+    save();
+}
+
