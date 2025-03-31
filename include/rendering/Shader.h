@@ -28,8 +28,8 @@ public:
     void uniform4fv(const std::string &name, glm::vec4 v);
     void uniformM4fv(const std::string &name, glm::mat4x4 mvp);
 
-private:
     void compile(std::string fs);
+private:
 
     int compile_shader(GLenum type, const std::string &source);
     void create_program(GLuint vs, GLuint fs);

@@ -47,6 +47,8 @@ public:
     void addUniform(const Script::Uniform& uniform);
 
 private:
+    static bool _init;
+
     std::string _path;
 
     bool _valid = false;

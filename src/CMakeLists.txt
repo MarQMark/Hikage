@@ -31,6 +31,7 @@ add_executable(Hikage
         rendering/Viewport.cpp
         rendering/Shader.cpp
         rendering/Uniforms.cpp
+        rendering/Icon.cpp
 
         script/Script.cpp
         script/Callbacks.cpp

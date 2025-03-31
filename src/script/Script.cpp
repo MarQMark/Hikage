@@ -29,6 +29,8 @@
  *      - void clbkKey(key, scancode, action, mods)
  */
 
+bool Script::_init = false;
+
 static PyObject* pySetUniform1i(PyObject* self, PyObject* args) {
     const char* input_str;
     int int1;
@@ -332,10 +334,19 @@ void addFunc(PyObject* module, PyObject** func, const std::string& name){
 }
 
 void Script::launch() {
-    if(_valid){
-        Py_DECREF(_py_module);
-        Py_Finalize();
+    if(!Script::_init){
+        PyImport_AppendInittab("hikage", &pyInitScriptAPI);
+        Py_Initialize();
+        PyRun_SimpleString(std::string("import sys; sys.path.append('"+ _path +"')").c_str());
 
+        _py_module = PyImport_ImportModule("script");
+        Script::_init = true;
+    }
+    else {
+        _py_module = PyImport_ReloadModule(_py_module);
+    }
+
+    if(_valid){
         _py_init = nullptr;
         _py_update = nullptr;
         _py_clbk_mouse_btn = nullptr;
@@ -344,15 +355,9 @@ void Script::launch() {
     }
 
     _uniforms.clear();
-    PyImport_AppendInittab("hikage", &pyInitScriptAPI);
-    Py_Initialize();
-    PyRun_SimpleString(std::string("import sys; sys.path.append('"+ _path +"')").c_str());
-
     _active = false;
     _valid = false;
 
-
-    _py_module = PyImport_ImportModule("script");
     if (!_py_module) {
         PyErr_Print();
         printf("Failed to load script.py\n");
@@ -374,7 +379,7 @@ void Script::launch() {
 }
 
 void Script::setActive(bool active) {
-    if(!_valid || active){
+    if(!_valid){
         launch();
         _active = _valid;
     }

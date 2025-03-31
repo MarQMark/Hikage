@@ -17,12 +17,14 @@
 
 #include "stb_image/stb_image.h"
 #include "script/Callbacks.h"
+#include "rendering/Icon.h"
 
 /* TODO:
  *  - Add Info
  *  - Info Uniforms
  *  - Info Python Scripts
  *
+ *  - Add Script Error Popup
  *  - Add periodic reload
  *  - Settings Menu
  *  - Fix Version compatibility
@@ -34,25 +36,6 @@
  *  - Better Error Log (show error in code)
  *  - (Add deb package)
  */
-
-void setWindowIcon(GLFWwindow* window, const char* iconPath) {
-    GLFWimage icon;
-    int width, height, channels;
-
-    unsigned char* imageData = stbi_load(iconPath, &width, &height, &channels, 4);
-    if (!imageData) {
-        printf("Failed to load icon image: %s\n", iconPath);
-        return;
-    }
-
-    icon.width = width;
-    icon.height = height;
-    icon.pixels = imageData;
-
-    glfwSetWindowIcon(window, 1, &icon);
-
-    stbi_image_free(imageData);
-}
 
 int main() {
 
@@ -80,7 +63,8 @@ int main() {
         return -1;
     }
 
-    setWindowIcon(window, std::string(Config::get()->configPath() + "/icon.png").c_str());
+    Icon icon;
+    icon.gen(window, "Hikage");
 
     Shader shader;
     Viewport viewport(1280, 720);
@@ -123,6 +107,7 @@ int main() {
             if(Project::opened()){
                 glfwSetWindowTitle(window, Project::get()->getName().c_str());
                 viewport.update(Project::get()->getWidth(), Project::get()->getHeight());
+                icon.gen(window, Project::get()->getName());
             }
 
             if(Project::get()->changed()){

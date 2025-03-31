@@ -14,7 +14,12 @@ private:
     static void open_project(Project* project);
 
     bool _delete_script = false;
+    bool _info_const = false;
+    bool _info_func = false;
+
     void render_delete_script();
+    void render_info_const();
+    void render_info_func();
 };
 
 
