@@ -16,3 +16,5 @@ Two example projects are provided under examples:
 - Sunset: A sunset with moving trees at the bottom.
 
 # Screenshots
+![example1](https://github.com/user-attachments/assets/170254ab-e1ce-4f21-8db9-934b2804d399)
+![example2](https://github.com/user-attachments/assets/ec8294dc-3216-4822-bb16-e8fa2f63b439)
